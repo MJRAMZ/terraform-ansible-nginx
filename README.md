@@ -118,7 +118,7 @@ Now when you **ssh** into the VM the connection will be authenticated using the 
 * navigate to the playbooks directory
     * `cd terraform-ansible-nginx/ansible/playbooks`
 * use the following command to run the playbook
-    * `ansible-playbook nginx.yml`
+    * `ansible-playbook ngin-notls.yml`
 * you should see output similar to this:
     * ![Ansible Playbook Output](imgs/ansible_playbook_output.png)
 ### Check the webserver
