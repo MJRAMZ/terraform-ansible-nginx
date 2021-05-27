@@ -4,7 +4,7 @@ The purpose of this project was to familiarize myslef with *Terraform*, *Ansible
 Terraform was used to provision a Linux VM in Azure. Then Ansible was used to configure that VM with NGINX.
 
 ## Pre-requisites
-***
+
 ### Ansible
 * MacOS or Linux Distribution (Control Node)
 * Python2 (v2.7) or Python3 (v3.5+)
@@ -20,7 +20,7 @@ For this project I used Azure as my cloud provider.
 * [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli)
 
 ## Initial Setup and Config
-***
+
 ### Connecting to your Azure Account
 
 After installing the *Azure CLI*, sign in to Azure with the CLI.
@@ -49,7 +49,7 @@ Ansible by default assumes you are using SSH keys to connect to remote machines.
     * `git clone https://github.com/MJRAMZ/terraform-ansible-nginx.git`
 
 ## Provisoning the VM with TF
-***
+
 * navigate to the **"terraform"** directory of your local repo copy
     * `cd terraform`
 * initialize the configuration file
@@ -60,7 +60,7 @@ Ansible by default assumes you are using SSH keys to connect to remote machines.
     * `terraform apply`
 
 ## Connecting Ansible to the remote VM
-***
+
 Once the VM is provisioned. You need to edit some of the configuration files to get Ansible to communicate with your VM.
 
 ### Getting VM's public IP
@@ -113,7 +113,7 @@ Now when you **ssh** into the VM the connection will be authenticated using the 
     * ![Successful Ping](imgs/ansible_ping_success.png)
 
 ## Running the playbook
-***
+
 ### Configure VM with NGINX
 * navigate to the playbooks directory
     * `cd terraform-ansible-nginx/ansible/playbooks`
@@ -129,7 +129,6 @@ Now when you **ssh** into the VM the connection will be authenticated using the 
     * ![server message](imgs/server_message.png)
 
 ## Teardown Infrastructure
-***
 
 ### Terraform Destroy
 * you can teardonw your infrastrucutre by using the `destroy` command
@@ -152,7 +151,6 @@ Select the checkbox of the resource you want to delete and click the *trash-bin*
 ![cleanup](imgs/cleanup.png)
 
 ## References
-***
 Used the following resources as a guide, adjusting the code templates as needed to get things working.
 
 * [Azure Terraform Docs](https://docs.microsoft.com/en-us/azure/developer/terraform/create-linux-virtual-machine-with-infrastructure)
