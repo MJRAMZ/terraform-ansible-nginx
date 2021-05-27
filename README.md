@@ -1,5 +1,5 @@
 # About
-The purpose of this project was to familiarize myslef with *Terraform* and *Ansible*. 
+The purpose of this project was to familiarize myslef with *Terraform*, *Ansible*, and the *Azure* cloud platform. 
 
 Terraform was used to provision a Linux VM in Azure. Then Ansible was used to configure that VM with NGINX.
 
@@ -66,22 +66,22 @@ Once the VM is provisioned. You need to edit some of the configuration files to 
 ### Getting VM's public IP
 First start by getting your VM's public IP address.
 * get the VM's public IP with `az vm show`
-    * `az vm show --resource-group myResourceGroup --name myVM -d --query [publicIps] -o tsv`
+    * `az vm show --resource-group myTFResourceGroup --name myVM -d --query [publicIps] -o tsv`
 
 You can also get your VM's IP address by logging in to your Azure account and using the Azure portal.
 
 ### Establishing SSH fingerprint
 * remotely connect to the VM
-    * `ssh \<username>@<VM_IP_Address>
+    * `ssh azureuser@<VM_IP_Address>`
 * You will be prompted for the password for VM
-    * enter password
+    * enter password: `test1234!`
 * If ssh connection was successful your terminal should look like this:
-    * `\<username>@<VM_IP_Address>
+    * `azureuser@<VM_IP_Address>`
 * Type **"exit"** and press **"enter"** to end the remote session
 
 ### Copy the public key
 * copy public key to remote VM
-    * `ssh-copy-id <username>@<VM_IP_Addres>`
+    * `ssh-copy-id azureuser@<VM_IP_Addres>`
 * login to the VM with username and password
 * You should see some output letting you know that the key was copied.
 * exit the remote session
@@ -95,37 +95,63 @@ Now when you **ssh** into the VM the connection will be authenticated using the 
     * ```
         [<server_group_name>]
         <your_VM_IP_Address>
-    ```
+        ```
 * Open and edit the **"ansible.cfg"** file
     * uncomment the **"inventory"** line
         * `#inventory   = /etc/ansible/hosts`
-        * `#inventory   = /etc/ansible/hosts`
+        * `inventory   = /etc/ansible/hosts`
     * add the following below the **"inventory"** line
         * ```
-            remote_user = <username>
+            remote_user = azureuser
             private_key_file = ~/.ssh/id_rsa
-        ```
+            ```
 
 ### Testing the connection
 * run the following command to see if you can connect to the VM through Ansible
     * `ansible <group_name> -m ping`
 * you should receive the following output for a successful connection
-    *
+    * ![Successful Ping](imgs/ansible_ping_success.png)
 
 ## Running the playbook
 ***
 ### Configure VM with NGINX
+* navigate to the playbooks directory
+    * `cd terraform-ansible-nginx/ansible/playbooks`
 * use the following command to run the playbook
     * `ansible-playbook nginx.yml`
 * you should see output similar to this:
-    * "output"
+    * ![Ansible Playbook Output](imgs/ansible_playbook_output.png)
 ### Check the webserver
 * open up a web browser
 * navigate to your VM through its public IP address
     * `http://<your_VM_IP_Address>`
 * if everything worked correctly you should see the display message.
+    * ![server message](imgs/server_message.png)
 
-## Resources
+## Teardown Infrastructure
+***
+
+### Terraform Destroy
+* you can teardonw your infrastrucutre by using the `destroy` command
+    * `terraform destroy`
+* You will be met with a prompt asking if yor are sure you want to tear everything down
+    * ![destroy prompt](imgs/terraform_destroy_prompt.png)
+    * type: **yes** and hit enter
+* When Terraform is done you will get some output notifying you that the process is now complete
+    * ![destroy complete](imgs/terraform_destroy_complete.png)
+
+### Clean up stray resources
+Although Terraform does its best to tear everything down, there may be a stray resource or resource group that needs to be cleaned up.
+
+You can clean up stray resources by logging into your **Azure** account and navigating to the ***All resources*** section of the Azure portal
+
+![Azure portal](imgs/portal.png)
+
+Select the checkbox of the resource you want to delete and click the *trash-bin* icon that says **delete**.
+
+![cleanup](imgs/cleanup.png)
+
+## References
 ***
 Used the following resources as a guide, adjusting the code templates as needed to get things working.
 
